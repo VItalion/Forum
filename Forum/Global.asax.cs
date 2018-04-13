@@ -12,7 +12,7 @@ namespace Forum
     {
         protected void Application_Start()
         {
-            //System.Data.Entity.Database.SetInitializer<Models.ApplicationDbContext>(new Models.AppDbInizializer());
+            System.Data.Entity.Database.SetInitializer<Models.ApplicationDbContext>(new Models.AppDbInizializer());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
