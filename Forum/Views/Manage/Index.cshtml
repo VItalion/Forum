@@ -1,9 +1,7 @@
 ﻿@model Forum.Models.IndexViewModel
 @{
-    ViewBag.Title = "Управление";
+    ViewBag.Title = "Параметры учетной записи";
 }
-
-<h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
@@ -23,19 +21,7 @@
             }
             ]
         </dd>
-        <dt>Внешние имена входа:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Управление", "ManageLogins") ]
-        </dd>
-        @*
-            Номера телефонов можно использовать в качестве второго проверочного фактора для системы двухфакторной проверки подлинности.
-             
-             В <a href="https://go.microsoft.com/fwlink/?LinkId=403804">этой статье</a>
-                можно узнать, как настроить для этого приложения ASP.NET двухфакторную проверку подлинности с использованием SMS.
-             
-             Настроив двухфакторную проверку подлинности, раскомментируйте следующий блок
-        *@
+        @* TODO Для двухфакторной аутентификации по номеру телефона *@
         @*  
             <dt>Номер телефона:</dt>
             <dd>
@@ -57,18 +43,14 @@
             </dd>
         *@
         <dt>Двухфакторная проверка подлинности:</dt>
-        <dd>
-            <p>
-                Поставщики двухфакторной проверки подлинности не настроены. В <a href="https://go.microsoft.com/fwlink/?LinkId=403804">этой статье</a>
-                можно узнать, как настроить двухфакторную проверку подлинности для этого приложения ASP.NET.
-            </p>
-            @*@if (Model.TwoFactor)
+        <dd>           
+            @if (Model.TwoFactor)
                 {
                     using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         <text>Включено
-                        <input type="submit" value="Отключить" class="btn btn-link" />
+                        <input type="submit" value="Отключить" class="btn btn-default" />
                         </text>
                     }
                 }
@@ -78,10 +60,10 @@
                     {
                         @Html.AntiForgeryToken()
                         <text>Отключено
-                        <input type="submit" value="Включить" class="btn btn-link" />
+                        <input type="submit" value="Включить" class="btn btn-default" />
                         </text>
                     }
-                }*@
+                }
         </dd>
     </dl>
 </div>

@@ -1,0 +1,27 @@
+﻿@model Forum.Models.Post
+@using Forum.Views.Helpers
+
+@{
+    ViewBag.Title = "ViewPost";
+}
+
+
+<div>
+    <h4>@Model.User.UserName</h4>
+    <hr />
+    <div class="body-content">
+        <h4><b>@Model.Header</b></h4>
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <hr />
+    <div id="comments">
+        @Html.Partial("~/Views/Comment/Comments.cshtml", Model.Comments?.ToList())
+    </div>
+
+    @Html.Partial("~/Views/Comment/AddComment.cshtml", new Forum.Models.Comment() { Post = Model })
+</div>
+<div>
+    @Html.FormForAutorOrAdmin(User.Identity.Name, "ChangePost", "Post", "Изменить", new { postId = Model.Id }, new { @display = "inline-block" })
+    @Html.FormWithRole("admin", "DeletePost", "Post", "Удалить", new { postId = Model.Id }, new { @display = "inline-block" })
+    @Html.ActionLink("К списку тем", "Index", "Post", null, new { @class = "btn btn-default", @display = "inline-block" })
+</div>

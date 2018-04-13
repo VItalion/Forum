@@ -1,0 +1,22 @@
+﻿@model PagedList.IPagedList<Forum.Models.Post>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Форум";
+}
+
+<h3>Темы:</h3>
+<table class="table">
+    @foreach (var post in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(post.Header, "GetPost", "Post", new { postId = post.Id }, new { @class = "item" })
+            </td>
+        </tr>
+    }
+</table>
+@Html.ActionLink("Создать тему", "CreatePost", "Post", new { @class = "btn btn-default" })
+<hr />
+<p>Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount</p>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Forum.Models.Post>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Результаты поиская";
+}
+
+<h3>Найденные темы:</h3>
+<table class="table">
+    @foreach (var post in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(post.Header, "GetPost", "Post", new { postId = post.Id }, new { @class = "item" })
+            </td>
+        </tr>
+    }
+</table>
+
+

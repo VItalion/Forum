@@ -1,0 +1,14 @@
+﻿
+@{
+    Layout = null;
+}
+
+@helper DeleteFormWithRole(string requiredRoleName,
+            string actionName, string controllerName,
+            object routeValues = null, FormMethod method = FormMethod.Post, object htmlAttributes = null)
+{
+    @using (Html.BeginForm(actionName, controllerName, routeValues, method, htmlAttributes))
+    {
+        <input type="submit" value="Удалить" />
+    }
+}

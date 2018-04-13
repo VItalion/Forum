@@ -1,0 +1,24 @@
+﻿@model Forum.Models.Comment
+
+@using (Ajax.BeginForm("CreateComment", "Comment", new { postId = Model.Post.Id, text = Model.Text }, new AjaxOptions { UpdateTargetId = "comments"}))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>@Model.Post.Header</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-12">
+                @Html.TextAreaFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Прокомментировать" class="btn btn-default pull-right" />
+            </div>
+        </div>
+    </div>
+}
