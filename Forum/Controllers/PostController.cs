@@ -76,7 +76,7 @@ namespace Forum.Controllers
             var currentUserName = System.Web.HttpContext.Current.User.Identity.Name;
             var userVm = new UserViewModel { UserName = currentUserName };
             newPost.User = userVm;
-            service.CreatePost(newPost.ToDto());
+            await service.CreatePostAsync(newPost.ToDto());
 
             return RedirectToAction(Constant.View.Index, Constant.View.Post);
         }
@@ -96,7 +96,7 @@ namespace Forum.Controllers
         [HttpPost]
         public async Task<ActionResult> ChangePost(PostViewModel post)
         {
-            service.ModifyPost(post.Id, post.ToDto());
+            await service.ModifyPostAsync(post.Id, post.ToDto());
 
             return RedirectToAction(Constant.View.GetPost, new { postId = post.Id });
         }
@@ -107,7 +107,7 @@ namespace Forum.Controllers
         {
             try
             {
-                service.RemovePost(postId);
+                await service.RemovePostAsync(postId);
             }
             catch (Exception ex)
             {

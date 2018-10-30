@@ -12,6 +12,6 @@ namespace Forum.Interfaces
         IRepository<Post> Posts { get; }
         IRepository<Comment> Comments { get; }
         IUserRepository Users { get; }
-        void Save();
+        Task SaveAsync();
     }
 }

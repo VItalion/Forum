@@ -9,9 +9,9 @@ namespace Forum.Interfaces
 {
     public interface IPostService
     {
-        void CreatePost(PostDto dto);
-        void ModifyPost(int id, PostDto dto);
-        void RemovePost(int id);
+        Task CreatePostAsync(PostDto dto);
+        Task ModifyPostAsync(int id, PostDto dto);
+        Task RemovePostAsync(int id);
         PostDto GetPost(int id);
         IEnumerable<PostDto> FindPosts(string request);
         IEnumerable<PostDto> GetAllPosts();

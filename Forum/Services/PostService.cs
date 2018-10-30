@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Forum.DTO;
 using Forum.Interfaces;
@@ -17,28 +18,31 @@ namespace Forum.Services
             Database = uow;
         }
 
-        public void CreatePost(PostDto dto)
+        public async Task CreatePostAsync(PostDto dto)
         {
             Post post = null;
             dto.FillModel(ref post);
-            post.User = Database.Users.Get(dto.User.UserName);
+            var user = Database.Users.Get(dto.User.UserName);
+            if (user is ApplicationUser)
+                post.User = user as ApplicationUser;
             Database.Posts.Add(post);
+            await Database.SaveAsync();
         }
 
-        public void ModifyPost(int id, PostDto dto)
+        public async Task ModifyPostAsync(int id, PostDto dto)
         {
             var post = Database.Posts.Find(id);
             if (post == null) return;
 
             dto.FillModel(ref post);
             Database.Posts.Update(post);
-            Database.Save();
+            await Database.SaveAsync();
         }
 
-        public void RemovePost(int id)
+        public async Task RemovePostAsync(int id)
         {
             Database.Posts.Delete(id);
-            Database.Save();
+            await Database.SaveAsync();
         }
 
         public PostDto GetPost(int id)

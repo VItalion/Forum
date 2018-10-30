@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Forum.Interfaces;
 using Forum.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Forum.Repositories
 {
@@ -19,17 +20,27 @@ namespace Forum.Repositories
 
         public Post Find(int id)
         {
-            return context.Posts.FirstOrDefault(p => p.Id == id);
+            return context.Posts.Include(p => p.User).Include(p => p.Comments).FirstOrDefault(p => p.Id == id);
         }
 
         public IEnumerable<Post> Get(Func<Post, bool> predicate)
         {
-            return context.Posts.AsParallel().Where(predicate).OrderBy(p=>p.TimeCreate).AsEnumerable();
+            return context.Posts.Include(p => p.User).Include(p => p.Comments).AsParallel().Where(predicate).OrderBy(p => p.TimeCreate).AsEnumerable();
         }
 
         public IEnumerable<Post> GetAll()
         {
-            return context.Posts.AsEnumerable();
+            var posts = context.Posts.Include(p=>p.User).Include(p=>p.Comments);
+            //foreach (var post in posts)
+            //{
+            //    context.Entry(post).Property<IUser>(p => p.User);
+            //    context.Entry(post).Collection<Comment>(c => c.Comments).Load();
+            //    foreach (var comment in post.Comments)
+            //    {
+            //        context.Entry(comment).Reference<IUser>(c => c.User).Load();
+            //    }
+            //}
+            return posts.AsEnumerable();
         }
 
         public void Add(Post entity)

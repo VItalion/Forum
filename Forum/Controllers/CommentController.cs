@@ -27,16 +27,16 @@ namespace Forum.Controllers
             commentVm.Text = text;
             commentVm.User = new UserViewModel { UserName = System.Web.HttpContext.Current.User.Identity.Name };
 
-            service.AddComment(postId, commentVm.ToDto());
+            await service.AddCommentAsync(postId, commentVm.ToDto());
 
-            return PartialView(Constant.View.Comments, service.GetComments(postId).Select(c => new CommentViewModel(c)).ToList());
+            return RedirectToAction(Constant.View.GetPost, Constant.View.Post, new { postId = postId });
         }
 
         [HttpPost]
         [Authorize(Roles = "user")]
         public async Task<ActionResult> DeleteComment(CommentViewModel comment)
         {
-            service.RemoveComment(comment.Id);
+            await service.RemoveCommentAsync(comment.Id);
             return RedirectToAction(Constant.View.GetPost, Constant.View.Post, new { postId = comment.Post.Id });
         }
 
@@ -52,7 +52,7 @@ namespace Forum.Controllers
         [Authorize(Roles = "user")]
         public async Task<ActionResult> ChangeComment(CommentViewModel comment)
         {
-            service.ChangeComment(comment.Id, comment.ToDto());
+            await service.ChangeCommentAsync(comment.Id, comment.ToDto());
             return RedirectToAction(Constant.View.GetPost, Constant.View.Post, new { postId = comment.Post.Id });
         }
     }

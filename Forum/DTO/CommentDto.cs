@@ -28,7 +28,7 @@ namespace Forum.DTO
             Id = model.Id;
             Text = model.Text;
             TimeCreate = model.TimeCreate;
-            User = new UserDto { UserName = model.User.UserName };
+            User = new UserDto { UserName = model.User?.UserName };
             //Post = new PostDto(model.Post);
         }
 

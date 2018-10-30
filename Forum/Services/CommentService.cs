@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Forum.DTO;
 using Forum.Interfaces;
@@ -28,7 +29,7 @@ namespace Forum.Services
             return Database.Comments.Get(c => c.Post.Id == postId).Select(c => new CommentDto(c));
         }
 
-        public void AddComment(int postId, CommentDto dto)
+        public async Task AddCommentAsync(int postId, CommentDto dto)
         {
             if (dto == null) return;
 
@@ -44,26 +45,26 @@ namespace Forum.Services
             comment.User = user;
 
             Database.Comments.Add(comment);
-            Database.Save();
+            await Database.SaveAsync();
         }
 
-        public void ChangeComment(int commentId, CommentDto dto)
+        public async Task ChangeCommentAsync(int commentId, CommentDto dto)
         {
             var comment = Database.Comments.Find(commentId);
             if (comment == null) return;
 
             dto.FillModel(ref comment);
             Database.Comments.Update(comment);
-            Database.Save();
+            await Database.SaveAsync();
         }
 
-        public void RemoveComment(int commentId)
+        public async Task RemoveCommentAsync(int commentId)
         {
             var comment = Database.Comments.Find(commentId);
             if (comment == null) return;
 
             Database.Comments.Delete(commentId);
-            Database.Save();
+            await Database.SaveAsync();
         }
 
         public void Dispose()

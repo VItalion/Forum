@@ -11,8 +11,8 @@ namespace Forum.Interfaces
     {
         CommentDto GetComment(int commentId);
         IEnumerable<CommentDto> GetComments(int postId);
-        void AddComment(int postId, CommentDto dto);
-        void ChangeComment(int commentId, CommentDto dto);
-        void RemoveComment(int commentId);
+        Task AddCommentAsync(int postId, CommentDto dto);
+        Task ChangeCommentAsync(int commentId, CommentDto dto);
+        Task RemoveCommentAsync(int commentId);
     }
 }

@@ -43,6 +43,7 @@ namespace Forum.ViewModels
             Header = model.Header;
             Description = model.Description;
             User = new UserViewModel { UserName = model?.User.UserName };
+            Comments = model.Comments.Select(c => new CommentViewModel(c)).ToList();
         }
 
         public PostDto ToDto()

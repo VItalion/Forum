@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using Forum.Interfaces;
 using Forum.Repositories;
@@ -23,7 +24,7 @@ namespace Forum.Models
         public IRepository<Comment> Comments => comments ?? (comments = new CommentRepository(context));
         public IUserRepository Users => users ?? (users = new UserRepository(context));
 
-        public async void Save()
+        public async Task SaveAsync()
         {
             await context.SaveChangesAsync();
         }

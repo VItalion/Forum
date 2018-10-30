@@ -42,8 +42,8 @@ namespace Forum.ViewModels
                 Id = Id,
                 Text = Text,
                 TimeCreate = TimeCreate,
-                User = User.ToDto(),
-                Post = Post.ToDto()
+                User = User?.ToDto(),
+                Post = Post?.ToDto()
             };
         }
     }
