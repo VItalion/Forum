@@ -5,8 +5,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using Forum.Models;
+using Forum.Repositories;
 
-namespace Forum.Models
+namespace Forum.Tools
 {
     public class AppDbInizializer : DropCreateDatabaseAlways<ApplicationDbContext>
     {

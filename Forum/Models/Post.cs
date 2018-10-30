@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity;
 
 namespace Forum.Models
 {
@@ -10,16 +11,10 @@ namespace Forum.Models
     {
         [Key]
         public int Id { get; set; }
-        [Display(Name = "Заголовок")]
         public string Header { get; set; }
-        [Display(Name = "Описанеие")]
         public string Description { get; set; }
-        public ApplicationUser User { get; set; }
-        public List<Comment> Comments { get; set; }
-
-        public Post()
-        {
-            Comments = new List<Comment>();
-        }
+        public DateTime TimeCreate { get; set; }
+        public IUser User { get; set; }
+        public virtual List<Comment> Comments { get; set; }
     }
 }

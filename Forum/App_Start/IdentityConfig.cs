@@ -10,8 +10,10 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using Forum.Models;
+using Forum.ViewModels;
 using System.Net.Mail;
+using Forum.Models;
+using Forum.Repositories;
 
 namespace Forum
 {

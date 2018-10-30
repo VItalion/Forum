@@ -1,4 +1,4 @@
-﻿@model Forum.Models.Post
+﻿@model Forum.ViewModels.PostViewModel
 @using Forum.Views.Helpers
 
 @{
@@ -18,7 +18,7 @@
         @Html.Partial("~/Views/Comment/Comments.cshtml", Model.Comments?.ToList())
     </div>
 
-    @Html.Partial("~/Views/Comment/AddComment.cshtml", new Forum.Models.Comment() { Post = Model })
+    @Html.Partial("~/Views/Comment/AddComment.cshtml", new Forum.ViewModels.CommentViewModel() { Post = Model })
 </div>
 <div>
     @Html.FormForAutorOrAdmin(User.Identity.Name, "ChangePost", "Post", "Изменить", new { postId = Model.Id }, new { @display = "inline-block" })

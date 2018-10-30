@@ -1,4 +1,4 @@
-﻿@model Forum.Models.Comment
+﻿@model Forum.ViewModels.CommentViewModel
 
 @using (Ajax.BeginForm("CreateComment", "Comment", new { postId = Model.Post.Id, text = Model.Text }, new AjaxOptions { UpdateTargetId = "comments"}))
 {

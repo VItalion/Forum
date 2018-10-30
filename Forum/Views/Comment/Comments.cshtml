@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Forum.Models.Comment>
+﻿@model IEnumerable<Forum.ViewModels.CommentViewModel>
 @using Forum.Views.Helpers
 
 <div>
@@ -6,20 +6,20 @@
     @foreach (var item in Model)
             {
         <div>
-            <b>@Html.DisplayFor(c => item.User.UserName)</b>
+            <b>@Html.DisplayFor(c => item.UserName)</b>
         </div>
         <div class="form-horizontal">
             <div id="@item.Id">
                 @Html.DisplayFor(modelItem => item.Text)
             </div>
             <br />
-            @if (User.Identity.Name == item.User?.UserName)
+            @if (User.Identity.Name == item.UserName)
             {
                 @Ajax.ActionLink("Изменить", "BeginChangeComment", "comment", new { commentId = item.Id },
                new AjaxOptions { UpdateTargetId = item.Id.ToString(), InsertionMode = InsertionMode.ReplaceWith },
                new { @class = "btn btn-default", @display = "inline-block" })
             }
-            @Html.FormForAutorOrAdmin(item.User.UserName, "DeleteComment", "Comment", "Удалить", item, new { @display = "inline-block" })
+            @Html.FormForAutorOrAdmin(item.UserName, "DeleteComment", "Comment", "Удалить", item, new { @display = "inline-block" })
         </div>
     }
 </div>

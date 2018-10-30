@@ -1,79 +1,59 @@
-﻿using Forum.Models;
+﻿using Forum.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Forum.Constants;
+using Forum.Interfaces;
 
 namespace Forum.Controllers
 {
     public class CommentController : Controller
     {
-        [HttpPost]
-        [Authorize(Roles = "user")]
-        public async Task<ActionResult> CreateComment(int postId, string text)
+        private ICommentService service;
+
+        public CommentController(ICommentService service)
         {
-            using (var context = ApplicationDbContext.Create())
-            {
-                var comment = new Comment();
-                comment.Text = text;
-                var posts = context.Posts.ToList();
-                var post = posts.First(p => p.Id == postId);
-                context.Entry(post).Collection(x => x.Comments).Load();
-                var currentUser = context.Users.First(u => u.UserName == User.Identity.Name);
-                comment.User = currentUser;
-                comment.Post = post;
-                post.Comments.Add(comment);
-                await context.SaveChangesAsync();
-                //return RedirectToAction("GetPost", new { postId = postId });
-                return PartialView("Comments", context.Comments.ToList());
-            }
+            this.service = service;
         }
 
         [HttpPost]
         [Authorize(Roles = "user")]
-        public async Task<ActionResult> DeleteComment(Comment comment)
+        public async Task<ActionResult> CreateComment(int postId, string text)
         {
-            using (var context = ApplicationDbContext.Create())
-            {
-                var commentToDelete = context.Comments.First(c => c.Id == comment.Id);
-                if (commentToDelete == null)
-                    return HttpNotFound();
+            var commentVm = new CommentViewModel();
+            commentVm.Text = text;
+            commentVm.User = new UserViewModel { UserName = System.Web.HttpContext.Current.User.Identity.Name };
 
-                context.Entry(commentToDelete).Reference(x => x.Post).Load();
-                var postId = commentToDelete.Post.Id;
-                context.Comments.Remove(commentToDelete);
-                await context.SaveChangesAsync();
+            service.AddComment(postId, commentVm.ToDto());
 
-                return RedirectToAction("GetPost", "Post", new { postId = postId });
-            }
+            return PartialView(Constant.View.Comments, service.GetComments(postId).Select(c => new CommentViewModel(c)).ToList());
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "user")]
+        public async Task<ActionResult> DeleteComment(CommentViewModel comment)
+        {
+            service.RemoveComment(comment.Id);
+            return RedirectToAction(Constant.View.GetPost, Constant.View.Post, new { postId = comment.Post.Id });
         }
 
         [HttpGet]
         [Authorize(Roles = "user")]
         public PartialViewResult BeginChangeComment(int commentId)
         {
-            using (var context = ApplicationDbContext.Create())
-            {
-                var comment = context.Comments.First(c => c.Id == commentId);
-                return PartialView("ChangeComment", comment);
-            }
+            var comment = service.GetComment(commentId);
+            return PartialView(Constant.View.ChangeComment, new CommentViewModel(comment));
         }
 
         [HttpPost]
         [Authorize(Roles = "user")]
-        public async Task<ActionResult> ChangeComment(Comment comment)
+        public async Task<ActionResult> ChangeComment(CommentViewModel comment)
         {
-            using (var context = ApplicationDbContext.Create())
-            {
-                var oldComment = context.Comments.First(c => c.Id == comment.Id);
-                oldComment.Text = comment.Text;
-                await context.SaveChangesAsync();
-                context.Entry(oldComment).Reference(c => c.Post).Load();
-                return RedirectToAction("GetPost", "Post", new { postId = oldComment.Post.Id });
-            }
-
+            service.ChangeComment(comment.Id, comment.ToDto());
+            return RedirectToAction(Constant.View.GetPost, Constant.View.Post, new { postId = comment.Post.Id });
         }
     }
 }
