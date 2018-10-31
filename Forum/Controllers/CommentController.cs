@@ -36,8 +36,9 @@ namespace Forum.Controllers
         [Authorize(Roles = "user")]
         public async Task<ActionResult> DeleteComment(CommentViewModel comment)
         {
+            var post = service.GetComment(comment.Id)?.Post;
             await service.RemoveCommentAsync(comment.Id);
-            return RedirectToAction(Constant.View.GetPost, Constant.View.Post, new { postId = comment.Post.Id });
+            return RedirectToAction(Constant.View.GetPost, Constant.View.Post, new { postId = post?.Id });
         }
 
         [HttpGet]

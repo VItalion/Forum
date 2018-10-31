@@ -36,27 +36,13 @@ namespace Forum.Controllers
         [AllowAnonymous]
         public ActionResult Search(string request, int? page)
         {
-            var posts = service.FindPosts(request).Select(p => new PostViewModel(p)).ToList();
-            return View(Constant.View.SearchResult, posts);
+            var posts = service.FindPosts(request)?.Select(p => new PostViewModel(p)).ToList();
+            return View(Constant.View.SearchResult, posts ?? new List<PostViewModel>());
         }
 
         [HttpGet]
         public ActionResult GetPost(int postId)
         {
-            //Post post;
-            //using (var context = Repositories.ApplicationDbContext.Create())
-            //{
-            //    post = context.Posts.First(p => p.Id == postId);
-            //    context.Entry(post).Reference(x => x.User).Load();
-            //    context.Entry(post).Collection(x => x.Comments).Load();
-
-            //    foreach (var comm in post.Comments)
-            //    {
-            //        context.Entry(comm).Reference(x => x.User).Load();
-            //    }
-            //}
-            //return View(post);
-
             var post = service.GetPost(postId);
             var postVm = new PostViewModel(post);
             return View(postVm);
@@ -82,9 +68,9 @@ namespace Forum.Controllers
         }
 
         [HttpGet]
-        public ActionResult ChangePost(int postId)
+        public ActionResult ChangePost(int id)
         {
-            var postDto = service.GetPost(postId);
+            var postDto = service.GetPost(id);
 
             if (postDto == null)
                 return HttpNotFound();

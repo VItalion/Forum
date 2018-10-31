@@ -43,6 +43,8 @@ namespace Forum.DTO
             model.Header = Header;
             model.Description = Description;
             model.TimeCreate = TimeCreate;
+            if (model.User == null)
+                model.User = new ApplicationUser { UserName = User?.UserName };
         }
     }
 }

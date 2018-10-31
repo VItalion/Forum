@@ -16,10 +16,10 @@ namespace Forum.Repositories
         {
             this.context = context;
         }
-        
+
         public Comment Find(int id)
         {
-            return context.Comments.FirstOrDefault(c => c.Id == id);
+            return context.Comments.Include(c => c.Post).FirstOrDefault(c => c.Id == id);
         }
 
         public IEnumerable<Comment> Get(Func<Comment, bool> predicate)

@@ -74,11 +74,11 @@ namespace Forum.Views.Helpers
             return MvcHtmlString.Empty;
         }
 
-        public static MvcHtmlString FormForAutorOrAdmin(this HtmlHelper htmlHelper, string autorName,
+        public static MvcHtmlString FormForAutorOrAdmin(this HtmlHelper htmlHelper, string authorName,
             string actionName, string controllerName, string sumbitCaption,
             Object routeValues = null, Object htmlAttributes = null, FormMethod method = FormMethod.Post)
         {
-            if (autorName == HttpContext.Current.User.Identity.Name || HttpContext.Current.User.IsInRole("admin"))
+            if (authorName == HttpContext.Current.User.Identity.Name || HttpContext.Current.User.IsInRole("admin"))
             {
                 return FormWithRole(htmlHelper, "user", actionName, controllerName, sumbitCaption, routeValues, htmlAttributes, method);
             }

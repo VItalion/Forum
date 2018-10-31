@@ -21,7 +21,7 @@ namespace Forum.Services
         public CommentDto GetComment(int commentId)
         {
             var model = Database.Comments.Find(commentId);
-            return model == null ? null : new CommentDto(model);
+            return model == null ? null : new CommentDto(model) { Post = new PostDto(model.Post) };
         }
 
         public IEnumerable<CommentDto> GetComments(int postId)

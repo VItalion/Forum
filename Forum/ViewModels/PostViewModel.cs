@@ -54,7 +54,7 @@ namespace Forum.ViewModels
                 Header = Header,
                 Description = Description,
                 TimeCreate = TimeCreate,
-                User = User.ToDto(),
+                User = User?.ToDto(),
                 Comments = Comments.Select(c => c.ToDto()).ToList()
             };
         }

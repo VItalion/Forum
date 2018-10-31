@@ -35,6 +35,7 @@ namespace Forum.Services
             if (post == null) return;
 
             dto.FillModel(ref post);
+
             Database.Posts.Update(post);
             await Database.SaveAsync();
         }
@@ -57,7 +58,7 @@ namespace Forum.Services
 
         public IEnumerable<PostDto> FindPosts(string request)
         {
-            var models = Database.Posts.Get(p => p.Header.Contains(request))?.ToList();
+            var models = Database.Posts.Get(p => p.Header.ToUpper().Contains(request.ToUpper()))?.ToList();
             if (models == null || !models.Any())
                 return null;
 

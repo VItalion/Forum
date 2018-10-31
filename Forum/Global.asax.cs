@@ -16,7 +16,7 @@ namespace Forum
     {
         protected void Application_Start()
         {
-            //System.Data.Entity.Database.SetInitializer<Repositories.ApplicationDbContext>(new Tools.AppDbInizializer());
+            System.Data.Entity.Database.SetInitializer<Repositories.ApplicationDbContext>(new Tools.AppDbInizializer());
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

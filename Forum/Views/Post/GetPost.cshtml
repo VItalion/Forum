@@ -21,7 +21,7 @@
     @Html.Partial("~/Views/Comment/AddComment.cshtml", new Forum.ViewModels.CommentViewModel() { Post = Model })
 </div>
 <div>
-    @Html.FormForAutorOrAdmin(User.Identity.Name, "ChangePost", "Post", "Изменить", new { postId = Model.Id }, new { @display = "inline-block" })
+    @Html.FormForAutorOrAdmin(User.Identity.Name, "ChangePost", "Post", "Изменить", new { id = Model.Id }, new { @display = "inline-block" }, FormMethod.Get)
     @Html.FormWithRole("admin", "DeletePost", "Post", "Удалить", new { postId = Model.Id }, new { @display = "inline-block" })
     @Html.ActionLink("К списку тем", "Index", "Post", null, new { @class = "btn btn-default", @display = "inline-block" })
 </div>
